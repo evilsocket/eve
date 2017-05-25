@@ -1,8 +1,10 @@
+import sys
+sys.path.append("eve")
+
 from argparse import ArgumentParser
 import os
 import cv2
-import sys
-sys.path.append("eve")
+import logging
 
 from eve.grabbers import CameraGrabber
 from eve.isolators import FaceIsolator
@@ -20,9 +22,16 @@ def draw_blobs( frame, blobs ):
         cv2.putText( frame.data, b.estimation, (b.x,b.y-5), cv2.FONT_HERSHEY_TRIPLEX, 0.4, (0,255,0))
 
 parser = ArgumentParser()
-parser.add_argument("--data-path", dest="datapath", default='./evedata',
-                    help="Data path.", metavar="FOLDER")
+parser.add_argument("--data-path", dest="datapath", default='./evedata',help="Data path.", metavar="FOLDER")
+parser.add_argument("--debug", dest="debug", action="store_true", default=False, help="Enable debug output.")
 args = parser.parse_args()
+
+fmt = '[%(asctime)s] %(levelname)s - %(message)s'
+
+if args.debug:
+    logging.basicConfig(level=logging.DEBUG, format=fmt)
+else:
+    logging.basicConfig(level=logging.INFO, format=fmt)
 
 check_dir(args.datapath)
 
@@ -30,7 +39,7 @@ cam = CameraGrabber(0)
 w, h = cam.get_frame_dimensions()
 isolators = [ FaceIsolator() ]
 
-print "@ Capturing at %dx%d, press 'q' to quit." % ( w, h )
+logging.info("Capturing at %dx%d, press 'q' to quit." % ( w, h ))
 
 prev = 0
 
@@ -39,7 +48,7 @@ while True:
     frame = cam.get_frame()
 
     if frame is None:
-        print "! Error reading frame."
+        logging.warning("Error reading frame.")
         continue
 
     # Isolate blobs in the frame

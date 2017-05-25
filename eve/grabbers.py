@@ -1,3 +1,5 @@
+import logging
+
 from frame import Frame
 
 class Grabber(object):
@@ -19,7 +21,8 @@ import cv2
 
 class CameraGrabber(Grabber):
     def __init__(self,dev):
-        self.cam   = cv2.VideoCapture(dev)
+        logging.info( "Creating camera grabber from device %d." % dev )
+        self.cam = cv2.VideoCapture(dev)
 
     def get_frame_dimensions(self):
         width = self.cam.get( cv2.cv.CV_CAP_PROP_FRAME_WIDTH )
