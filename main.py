@@ -33,13 +33,16 @@ if args.debug:
 else:
     logging.basicConfig(level=logging.INFO, format=fmt)
 
+logging.info( "Eve v%s started." % Eve.VERSION )
+logging.info( "Using datapath %s" % args.datapath )
+
 check_dir(args.datapath)
 
 cam = CameraGrabber(0)
 w, h = cam.get_frame_dimensions()
 isolators = [ FaceIsolator() ]
 
-logging.info("Capturing at %dx%d, press 'q' to quit." % ( w, h ))
+logging.info( "Capturing at %dx%d, press 'q' to quit." % ( w, h ) )
 
 prev = 0
 
