@@ -7,7 +7,7 @@ import cv2
 import logging
 
 from eve.grabbers import CameraGrabber
-from eve.isolators import FaceIsolator
+from eve.isolators import FaceIsolator, EyeIsolator
 from eve.manager import Eve
 from eve.training import check_dir, save_unlabeled_data
 from eve.t import curr_millis
@@ -40,7 +40,7 @@ check_dir(args.datapath)
 
 cam = CameraGrabber(0)
 w, h = cam.get_frame_dimensions()
-isolators = [ FaceIsolator() ]
+isolators = [ FaceIsolator(), EyeIsolator() ]
 
 logging.info( "Capturing at %dx%d, press 'q' to quit." % ( w, h ) )
 

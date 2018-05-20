@@ -25,8 +25,8 @@ class CameraGrabber(Grabber):
         self.cam = cv2.VideoCapture(dev)
 
     def get_frame_dimensions(self):
-        width = self.cam.get( cv2.cv.CV_CAP_PROP_FRAME_WIDTH )
-        height = self.cam.get( cv2.cv.CV_CAP_PROP_FRAME_HEIGHT )
+        width = self.cam.get( cv2.CAP_PROP_FRAME_WIDTH )
+        height = self.cam.get( cv2.CAP_PROP_FRAME_HEIGHT )
         return (width,height)
 
     def get_frame(self):
